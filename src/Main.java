@@ -53,20 +53,66 @@ public class Main {
                 },
 
 
-
         };
 
-        ArrayList <Exercise> exerciseObjects = new ArrayList<Exercise>();
+        ArrayList<Exercise> exerciseObjects = new ArrayList<Exercise>();
 
-        for ( String[] exercise : exercises){
+        for (String[] exercise : exercises) {
 
             exerciseObjects.add(new Exercise(exercise[0], exercise[1], exercise[2], exercise[3]));
             System.out.println(String.format("added %s", exercise[0]));
         }
         System.out.println("Done!");
-        System.out.println(exerciseObjects);
+
+        for (Exercise exercise : exerciseObjects) {
+
+            exercise.printExercise();
+        }
+
+        //Calling filterExercises method to only display floor exercises
+        filterExercises("floor", exerciseObjects, 0);
+
+        //Calling filterExercises method to only display floor exercises that take more than 1 min
+        filterExercises("floor", exerciseObjects, 60);
+
+        //BONUS EXERCISE
+        ArrayList<IntervalWorkout> workoutList = new ArrayList<IntervalWorkout>();
+
+        String[] exerciseList = {
+                exerciseObjects.get(0).name,
+                exerciseObjects.get(2).name,
+                exerciseObjects.get(1).name
+        };
+
+        workoutList.add(new IntervalWorkout("myWorkout", exerciseList, 4, 30));
+
+        workoutList.get(0).showWorkout();
 
 
     }
+
+    //Function to Filter Exercises
+
+    public static void filterExercises(String filterby, ArrayList<Exercise> exerciseObjects, int duration) {
+
+        System.out.printf("%s EXCERSICES ", filterby.toUpperCase());
+        if (duration > 0) {
+            System.out.printf("MIN-DURATION: %d seconds \n \n", duration);
+        } else {
+            System.out.print("\n \n");
+        }
+        for (Exercise exercise : exerciseObjects) {
+
+            if (filterby == exercise.position) {
+                if (duration > 0 && exercise.duration <= duration) {
+                    continue;
+                }
+                exercise.printExercise();
+
+            }
+        }
+    }
+
 }
+
 
